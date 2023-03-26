@@ -24,7 +24,9 @@ extra-source-files:
     README.md
 
 library
-    exposed-modules:  Day1
+    exposed-modules:  
+        Day1
+        Day2
 
     -- Modules included in this library but not exported.
     -- other-modules:
