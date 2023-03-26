@@ -15,6 +15,11 @@ beats Rock = Scissors
 beats Scissors = Paper
 beats Paper = Rock
 
+beatenBy :: Shape -> Shape
+beatenBy Rock = Paper
+beatenBy Scissors = Rock
+beatenBy Paper = Scissors
+
 -- score for an outcome of a round of RPS
 outcomeScore :: Shape -> Shape -> Int
 outcomeScore oppShape myShape
@@ -28,11 +33,11 @@ opponentShape 'A' = Rock
 opponentShape 'B' = Paper
 opponentShape 'C' = Scissors
 
--- my shape code to shape
-myShape :: Char -> Shape
-myShape 'X' = Rock
-myShape 'Y' = Paper
-myShape 'Z' = Scissors
+-- my shape given the code and their shape
+myShape :: Char -> Shape -> Shape
+myShape 'X' = beats 
+myShape 'Y' =  id 
+myShape 'Z' = beatenBy 
 
 solution :: [String] -> Int
 solution = sum . map roundScore
@@ -41,4 +46,4 @@ solution = sum . map roundScore
         roundScore [oppCode, ' ', myCode] = outcomeScore opp me + shapeScore me
             where
                 opp = opponentShape oppCode
-                me = myShape myCode
+                me = myShape myCode opp
