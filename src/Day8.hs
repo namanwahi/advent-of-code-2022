@@ -27,29 +27,34 @@ getRow grid y = grid !! y
 getColumn :: Grid -> Int -> [Int]
 getColumn grid x = map (!! x) grid
 
-isVisible :: Grid -> (Int, Int) -> Bool
-isVisible grid p@(x, y) = any allLess [beforeCol, beforeRow, afterCol, afterRow]
+viewingDistance :: Int -> [Int] -> Int
+viewingDistance _ [] = 0
+viewingDistance h view
+    | null search = length view
+    | otherwise = fst $ head search
+    where
+        search = filter (\(i, h') -> h <= h') $ zip [1..] view
+
+score :: Grid -> (Int, Int) -> Int
+score grid p@(x, y) = product $ map (traceShowId . viewingDistance point) [beforeCol, beforeRow, afterCol, afterRow]
     where
         -- height at point 
         point = getPoint grid p
         -- column at point 
-        col = traceShowId $ getColumn grid x
+        col = getColumn grid x
         -- row at point 
-        row = traceShowId $ getRow grid y
+        row = getRow grid y
         -- elements before point in col
-        beforeCol = take y col
+        beforeCol = reverse $ take y col
         -- elements before point in row
-        beforeRow = take x row
+        beforeRow = reverse $ take x row
         -- elements after point in col
         afterCol = drop (y + 1) col
         -- elements before point in row 
-        afterRow = drop (x + 1) row 
-        -- all less func
-        allLess = all (< point)
+        afterRow = drop (x + 1) row
 
 
 solution :: [String] -> Int
-solution lines = length $ filter (isVisible grid)  $ allCoords grid
+solution lines = maximum $ map (score grid) $ allCoords grid
     where
         grid = map (map digitToInt) lines
-
