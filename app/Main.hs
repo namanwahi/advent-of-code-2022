@@ -9,10 +9,11 @@ import qualified Day6 (solution)
 import qualified Day7 (solution)
 import qualified Day8 (solution)
 import qualified Day9 (solution)
+import qualified Day10 (solution)
 
 
 main :: IO ()
 main = do
   inputIo <- readFile "app/input.txt"
   let input = lines inputIo
-  print (Day9.solution input)
+  print (Day10.solution input)

@@ -34,6 +34,7 @@ library
         Day7
         Day8
         Day9
+        Day10
         Parsing
 
     -- Modules included in this library but not exported.
